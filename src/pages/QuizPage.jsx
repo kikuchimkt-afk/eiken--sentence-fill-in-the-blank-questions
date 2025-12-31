@@ -43,11 +43,14 @@ export function QuizPage() {
             const normalize = (str) => str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
             const sentencesWithParagraphInfo = currentItem.sentences.map((sent, idx) => {
-                const isParagraphEnd = rawParagraphs.some(para => {
-                    const paraNorm = normalize(para);
-                    const sentNorm = normalize(sent.english);
-                    return paraNorm.endsWith(sentNorm) && sentNorm.length > 5;
-                });
+                let isParagraphEnd = sent.isParagraphEnd;
+                if (isParagraphEnd === undefined) {
+                    isParagraphEnd = rawParagraphs.some(para => {
+                        const paraNorm = normalize(para);
+                        const sentNorm = normalize(sent.english);
+                        return paraNorm.endsWith(sentNorm) && sentNorm.length > 5;
+                    });
+                }
 
                 let displayText = sent.english;
                 // Question Placeholder Replacement Logic
@@ -161,15 +164,120 @@ export function QuizPage() {
 
                                     // ... Conversation Mode Logic (Skipped for brevity, identical to previous mostly) ...
                                     if (isConversationMode) {
-                                        // Reuse existing logic for Conversation
-                                        return questionNumbers.filter(qNum => qNum !== 'Other').map(qNum => {
-                                            const groupText = groupedSentences[qNum];
-                                            return (
-                                                <div key={qNum} id={`question-group-${qNum}`} className="eiken-problem-block">
-                                                    {/* ... Same as before ... */}
-                                                </div>
-                                            );
+                                        // Conversation Mode - Group by paragraph breaks
+                                        const paragraphs = [];
+                                        let currentP = [];
+                                        sentences.forEach(s => {
+                                            currentP.push(s);
+                                            if (s.isParagraphEnd) {
+                                                paragraphs.push(currentP);
+                                                currentP = [];
+                                            }
                                         });
+                                        if (currentP.length > 0) paragraphs.push(currentP);
+
+                                        return (
+                                            <div className="conversation-mode-container" style={{ paddingRight: '10px' }}>
+                                                <div className="panel-title" style={{
+                                                    background: 'white',
+                                                    borderRadius: '8px',
+                                                    border: '2px solid #94a3b8',
+                                                    padding: '16px',
+                                                    marginBottom: '20px',
+                                                    textAlign: 'center',
+                                                    boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+                                                }}>
+                                                    <h2 style={{ margin: 0, fontSize: '1.4rem', color: '#334155', fontFamily: '"Times New Roman", Times, serif' }}>
+                                                        {currentItem.englishTitle || currentItem.title}
+                                                    </h2>
+                                                </div>
+
+                                                {paragraphs.map((paragraph, pIndex) => (
+                                                    <div key={pIndex} className="paragraph-panel" style={{
+                                                        background: 'white',
+                                                        borderRadius: '12px',
+                                                        border: '2px solid #94a3b8',
+                                                        padding: '24px',
+                                                        marginBottom: '16px',
+                                                        boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                                                    }}>
+                                                        <div style={{ fontSize: '1.05rem', lineHeight: '1.9', color: '#1e293b' }}>
+                                                            {paragraph.map((sent) => {
+                                                                const cleanText = (sent.displayEnglish || sent.english).replace(/^[-・●\s\u3000]+/, '').trim();
+                                                                const isActive = activeSentenceId === sent.id;
+                                                                return (
+                                                                    <div
+                                                                        key={sent.id}
+                                                                        className={`line-item ${isActive ? 'active' : ''}`}
+                                                                        style={{
+                                                                            cursor: 'pointer',
+                                                                            padding: '6px 8px',
+                                                                            marginBottom: '4px',
+                                                                            borderRadius: '6px',
+                                                                            background: isActive ? '#fef3c7' : 'transparent',
+                                                                            transition: 'background-color 0.2s'
+                                                                        }}
+                                                                        onClick={() => setActiveSentenceId(sent.id)}
+                                                                    >
+                                                                        {cleanText.split(/(\(\s*\d+\s*\))/).map((part, i) => {
+                                                                            const match = part.match(/\(\s*(\d+)\s*\)/);
+                                                                            if (match) {
+                                                                                const qNum = parseInt(match[1]);
+                                                                                const qData = currentItem.questions?.find(q => q.number === qNum);
+                                                                                const correctChoice = qData?.choices?.find(c => c.index === qData.correctAnswer);
+                                                                                const isAnswered = showNotes && correctChoice;
+
+                                                                                return (
+                                                                                    <span
+                                                                                        key={i}
+                                                                                        className={`blank-slot ${isAnswered ? 'filled-answer' : 'emphasized'}`}
+                                                                                        style={{
+                                                                                            fontWeight: 'bold',
+                                                                                            fontStyle: 'normal',
+                                                                                            fontSize: 'inherit',
+                                                                                            fontFamily: 'inherit',
+                                                                                            letterSpacing: 'inherit',
+                                                                                            color: isAnswered ? '#16a34a' : '#1d4ed8',
+                                                                                            background: isAnswered ? 'transparent' : '#fef08a',
+                                                                                            padding: isAnswered ? '0' : '2px 6px',
+                                                                                            borderRadius: '4px',
+                                                                                            margin: isAnswered ? '0' : '0 4px',
+                                                                                            borderBottom: isAnswered ? 'none' : 'none'
+                                                                                        }}
+                                                                                    >
+                                                                                        {isAnswered ? correctChoice.text : part}
+                                                                                    </span>
+                                                                                );
+                                                                            }
+                                                                            return <React.Fragment key={i}>{highlightMainVerb(part, sent.mainVerb, isActive)}</React.Fragment>;
+                                                                        })}
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                ))}
+
+                                                <div className="passage-actions" style={{ marginTop: '30px', textAlign: 'center' }}>
+                                                    <button
+                                                        className={`explain-btn ${showNotes ? 'hide-mode' : ''}`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (!showNotes && !activeSentenceId && sentences.length > 0) {
+                                                                setActiveSentenceId(sentences[0].id);
+                                                            }
+                                                            setShowNotes(!showNotes);
+                                                        }}
+                                                    >
+                                                        {showNotes ? (
+                                                            <><EyeOff size={20} style={{ marginRight: 8 }} /> 解説を隠す</>
+                                                        ) : (
+                                                            <><BookOpen size={20} style={{ marginRight: 8 }} /> 全体の解説・解答を表示</>
+                                                        )}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        );
                                     } else {
                                         // Passage Mode
                                         const paragraphs = [];
@@ -239,13 +347,20 @@ export function QuizPage() {
                                                                                         key={i}
                                                                                         className={`blank-slot ${isAnswered ? 'filled-answer' : 'emphasized'}`}
                                                                                         style={{
-                                                                                            margin: '0 4px',
                                                                                             fontWeight: 'bold',
-                                                                                            color: isAnswered ? '#16a34a' : 'inherit',
-                                                                                            borderBottom: isAnswered ? '2px solid #16a34a' : 'none'
+                                                                                            fontStyle: 'normal',
+                                                                                            fontSize: 'inherit',
+                                                                                            fontFamily: 'inherit',
+                                                                                            letterSpacing: 'inherit',
+                                                                                            color: isAnswered ? '#16a34a' : '#1d4ed8', // 統一のため青色コードもConversation modeと合わせる
+                                                                                            background: isAnswered ? 'transparent' : '#fef08a',
+                                                                                            padding: isAnswered ? '0' : '2px 6px',
+                                                                                            borderRadius: '4px',
+                                                                                            margin: isAnswered ? '0' : '0 4px',
+                                                                                            borderBottom: isAnswered ? 'none' : 'none'
                                                                                         }}
                                                                                     >
-                                                                                        {part}
+                                                                                        {isAnswered ? correctChoice.text : part}
                                                                                     </span>
                                                                                 );
                                                                             }
@@ -337,41 +452,7 @@ export function QuizPage() {
                                     {(() => {
                                         const qData = currentItem.questions?.find(q => q.number === activeSentence.relatedQ || q.number === parseInt(activeSentence.relatedQ));
                                         if (!qData) return null;
-
-                                        return (
-                                            <>
-                                                {/* Choices */}
-                                                <div style={{ marginBottom: '16px', padding: '12px', background: '#f0fdf4', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
-                                                    <div style={{ fontSize: '0.85rem', fontWeight: '600', color: '#166534', marginBottom: '8px' }}>選択肢</div>
-                                                    {qData.choices.map((choice) => (
-                                                        <div
-                                                            key={choice.index}
-                                                            style={{
-                                                                padding: '4px 8px',
-                                                                marginBottom: '4px',
-                                                                borderRadius: '4px',
-                                                                background: choice.index === qData.correctAnswer ? '#dcfce7' : 'transparent',
-                                                                fontWeight: choice.index === qData.correctAnswer ? 'bold' : 'normal',
-                                                                color: choice.index === qData.correctAnswer ? '#15803d' : '#374151'
-                                                            }}
-                                                        >
-                                                            {choice.index}. {choice.text}
-                                                            {choice.index === qData.correctAnswer && ' ✓'}
-                                                        </div>
-                                                    ))}
-                                                </div>
-
-                                                {/* Question Explanation */}
-                                                {qData.explanation && (
-                                                    <div style={{ marginBottom: '16px', padding: '12px', background: '#fffbeb', borderRadius: '8px', border: '1px solid #fcd34d' }}>
-                                                        <div style={{ fontSize: '0.85rem', fontWeight: '600', color: '#92400e', marginBottom: '8px' }}>問題の解説</div>
-                                                        <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.7', fontSize: '0.9rem' }}>
-                                                            {qData.explanation.replace(/\\n/g, '\n')}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </>
-                                        );
+                                        return <ExplanationPanel qData={qData} />;
                                     })()}
                                 </div>
                             )}
@@ -391,5 +472,114 @@ export function QuizPage() {
                 </button>
             </div>
         </div >
+    );
+}
+
+function ExplanationPanel({ qData }) {
+    const hasNuance = !!qData.nuanceExplanation;
+    // ニュアンス解説がある場合は 'beginner' デフォルト、ない場合は 'academic'
+    const [mode, setMode] = useState(hasNuance ? 'beginner' : 'academic');
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* Choices */}
+            <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: '600', color: '#166534', marginBottom: '8px' }}>選択肢</div>
+                {qData.choices.map((choice) => (
+                    <div
+                        key={choice.index}
+                        style={{
+                            padding: '4px 8px',
+                            marginBottom: '4px',
+                            borderRadius: '4px',
+                            background: choice.index === qData.correctAnswer ? '#dcfce7' : 'transparent',
+                            fontWeight: choice.index === qData.correctAnswer ? 'bold' : 'normal',
+                            color: choice.index === qData.correctAnswer ? '#15803d' : '#374151'
+                        }}
+                    >
+                        {choice.index}. {choice.text}
+                        {choice.index === qData.correctAnswer && ' ✓'}
+                    </div>
+                ))}
+            </div>
+
+            {/* Content and Tabs */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>
+                    <button
+                        onClick={() => setMode('beginner')}
+                        disabled={!hasNuance}
+                        style={{
+                            padding: '6px 12px',
+                            borderRadius: '20px',
+                            border: 'none',
+                            background: mode === 'beginner' ? '#10b981' : '#f3f4f6',
+                            color: mode === 'beginner' ? 'white' : (!hasNuance ? '#d1d5db' : '#4b5563'),
+                            fontWeight: 'bold',
+                            fontSize: '0.8rem',
+                            cursor: hasNuance ? 'pointer' : 'not-allowed',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            opacity: hasNuance ? 1 : 0.6
+                        }}
+                    >
+                        🔰 初学者向け
+                    </button>
+                    <button
+                        onClick={() => setMode('academic')}
+                        style={{
+                            padding: '6px 12px',
+                            borderRadius: '20px',
+                            border: 'none',
+                            background: mode === 'academic' ? '#3b82f6' : '#f3f4f6',
+                            color: mode === 'academic' ? 'white' : '#4b5563',
+                            fontWeight: 'bold',
+                            fontSize: '0.8rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                        }}
+                    >
+                        🎓 アカデミック
+                    </button>
+                </div>
+
+                {/* Content Body */}
+                <div style={{
+                    padding: '12px',
+                    background: mode === 'beginner' ? '#ecfdf5' : '#fffbeb',
+                    borderRadius: '8px',
+                    border: `1px solid ${mode === 'beginner' ? '#6ee7b7' : '#fcd34d'}`
+                }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: '600', color: mode === 'beginner' ? '#047857' : '#92400e', marginBottom: '8px' }}>
+                        {mode === 'beginner' ? 'ワンポイント解説' : '詳しい解説'}
+                    </div>
+                    <div style={{ lineHeight: '1.7', fontSize: '0.9rem', whiteSpace: 'pre-wrap' }}>
+                        {mode === 'beginner' ? (
+                            qData.nuanceExplanation
+                        ) : (
+                            // アカデミック版（ハイライト付き）
+                            qData.explanation && qData.explanation.replace(/\\n/g, '\n').split('\n').map((line, idx) => {
+                                const isCorrectLine = line.includes('→ 正解') || line.includes('→正解');
+                                return (
+                                    <div key={idx} style={{
+                                        color: isCorrectLine ? '#dc2626' : 'inherit',
+                                        fontWeight: isCorrectLine ? 'bold' : 'normal',
+                                        backgroundColor: isCorrectLine ? '#fee2e2' : 'transparent',
+                                        padding: isCorrectLine ? '4px 6px' : '0',
+                                        borderRadius: isCorrectLine ? '4px' : '0',
+                                        marginBottom: '2px'
+                                    }}>
+                                        {line || <br />}
+                                    </div>
+                                );
+                            })
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

@@ -104,7 +104,7 @@ export function HomePage() {
 
     const getCompactTitle = (title) => {
         const sessionMatch = title.match(/第(\d+)回/);
-        const problemMatch = title.match(/大問(\d+[A-Z])/);
+        const problemMatch = title.match(/大問(\d+[A-Z]?)/);
         const pre1Match = title.match(/大問2-(\d+)/);
 
         if (sessionMatch && pre1Match) {
@@ -116,7 +116,7 @@ export function HomePage() {
         }
 
         if (sessionMatch && problemMatch) {
-            return `第${sessionMatch[1]}回-${problemMatch[1]}`;
+            return `第${sessionMatch[1]}回 ${problemMatch[0]}`;
         }
 
         return title;
