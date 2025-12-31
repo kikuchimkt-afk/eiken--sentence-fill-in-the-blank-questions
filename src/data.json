@@ -7088,12 +7088,12 @@
   },
   {
     "filename": "grade2_2025_2_2B",
-    "title": "2025年度 第2回 英検2級 大問2B",
-    "passage": "Learning from Owls\n\nOwls are active at night because darkness works to their advantage. They have large eyes to gather as much light as possible. This helps them spot animals in the dark. What helps them find animals in the dark is not only their eyes but also their ears. Their ears are located at different heights on the left and right sides of their heads. This makes the time at which ( 21 ) different. They analyze this difference instantly and determine the accurate position of the animals.\n\nSpotting food is only the first step when animals hunt for their food. The hunters must get closer and catch their food before being noticed. Owls are also good at this. Many birds tend to make noise when cutting through the wind because air moves through their feathers in uncontrolled ways. However, the edges of owl feathers are unique. Their special design helps create ( 22 ). This allows them to fly quietly and long distances without being noticed.\n\nSome researchers are considering using the owl's feather structure in airplane design. A team at the University of London made a copy of owl feathers with 3D printing. They created model airplane wings with a structure similar to that of owl feathers and studied how air flowed around them. The research could help reduce noise from airplanes. This is very important for people in areas near airports, where more flights have caused higher noise levels. ( 23 ), many people hope for progress in this technology.",
+    "title": "2025年度 第2回 一次試験 2級 大問2B",
+    "englishTitle": "Learning from Owls",
+    "passage": "Owls are active at night because darkness works to their advantage. They have large eyes to gather as much light as possible. This helps them spot animals in the dark. What helps them find animals in the dark is not only their eyes but also their ears. Their ears are located at different heights on the left and right sides of their heads. This makes the time at which ( 21 ) different. They analyze this difference instantly and determine the accurate position of the animals.\n\nSpotting food is only the first step when animals hunt for their food. The hunters must get closer and catch their food before being noticed. Owls are also good at this. Many birds tend to make noise when cutting through the wind because air moves through their feathers in uncontrolled ways. However, the edges of owl feathers are unique. The special design helps create ( 22 ). This allows them to fly quietly and long distances without being noticed.\n\nSome researchers are considering using the owl's feather structure in airplane design. A team at the University of London made a copy of owl feathers with 3D printing. They created model airplane wings with a structure similar to that of owl feathers and studied how air flowed around them. The research could help reduce noise from airplanes. This is very important for people in areas near airports, where more flights have caused higher noise levels. ( 23 ), many people hope for progress in this technology.",
     "questions": [
       {
         "number": 21,
-        "correctAnswer": 3,
         "choices": [
           {
             "index": 1,
@@ -7112,11 +7112,11 @@
             "text": "their eye recognizes the light"
           }
         ],
-        "explanation": "【文章の流れと論理構造】\nフクロウが獲物の位置を正確に特定する仕組みについての説明。耳の高さの違いが鍵となる。\n\n【重要語彙・表現】\n・be located at: 〜に位置している\n・at different heights: 異なる高さに\n・instantly: 即座に、瞬時に\n・determine: 特定する、決定する\n・accurate position: 正確な位置\n\n【選択肢の詳細検討】\n1 (animals make some noise): 「獲物が音を立てる」。これは事実だが、「時間の違い（the time ... different）」の説明にはならない。獲物が音を立てるタイミングではなく、その音が耳に届く時間の違いが重要。\n\n2 (owls sleep in the day): 「フクロウは昼間眠る」。文脈と全く関係がない。耳の高さの違いと睡眠パターンは無関係。\n\n3 (sound arrives at each ear): ✓ 正解。「音が各耳に届く（時間）」。前文で「Their ears are located at different heights（耳が異なる高さに位置している）」と述べられており、高さが違えば音の到達時間も異なる。\"the time at which sound arrives at each ear is different\"（音が各耳に届く時間が異なる）という文意が完成し、後続の「この違いを瞬時に分析して位置を特定する」という説明と完璧に繋がる。\n\n4 (their eye recognizes the light): 「目が光を認識する」。視覚ではなく聴覚の説明をしている段落なので不適切。また\"the time\"（時間）という表現とも合わない。\n\n【正解の根拠】\n生物学的事実：フクロウの両耳は頭の左右で高さが異なる位置にあります。これにより、同じ音源からの音が左右の耳に到達する時間に微妙な差が生じます。フクロウはこの時間差（time difference）を瞬時に分析し、三角測量のような原理で獲物の正確な位置を特定できます。\n\n文法的にも、\"the time at which X happens\"（Xが起こる時間）という構文において、Xに当てはまるのは「音が耳に到達する」という出来事です。\n\n【科学的背景】\nこれは「両耳間時間差（Interaural Time Difference: ITD）」と呼ばれる音源定位の仕組みで、多くの動物が持つ能力ですが、フクロウは特にこの能力が発達しています。"
+        "correctAnswer": 3,
+        "explanation": "【文脈の状況】\nフクロウの耳は頭の左右で異なる高さにある。\nこれにより ( 21 ) の時間が異なる。\nこの違いを即座に分析し、動物の正確な位置を特定する。\n\n【選択肢の検討】\n1. animals make some noise（動物が何か音を出す）\n2. owls sleep in the day（フクロウが日中眠る）\n3. sound arrives at each ear（音が各耳に届く）：正解。耳の高さが違うため音が届く時間が異なる。\n4. their eye recognizes the light（目が光を認識する）"
       },
       {
         "number": 22,
-        "correctAnswer": 1,
         "choices": [
           {
             "index": 1,
@@ -7135,11 +7135,11 @@
             "text": "a color change in their wings"
           }
         ],
-        "explanation": "【文脈の状況】\nフクロウが静かに飛ぶ能力について説明している段落。他の鳥との対比が重要。\n\n【重要語彙・表現】\n・get closer: 近づく\n・before being noticed: 気づかれる前に\n・tend to: 〜しがちである\n・cutting through: 〜を切り裂いて進む\n・in uncontrolled ways: 制御されない形で\n・unique: 独特の、ユニークな\n・special design: 特別な設計\n・quietly: 静かに\n\n【選択肢の詳細検討】\n1 (a smooth and silent air movement): ✓ 正解。「滑らかで静かな空気の流れ」。直前の文で「多くの鳥は風を切る時に音を立てる（air moves through their feathers in uncontrolled ways）」と述べられ、\"However\"で逆接されている。フクロウの羽の縁は独特で、その特別な設計が「滑らかで静かな空気の流れ」を生み出す。これにより次の文「This allows them to fly quietly（これにより静かに飛べる）」という結果に繋がる。理に適った因果関係。\n\n2 (a loud hitting sound in the air): 「大きな打撃音」。\"However\"で逆接されているのに、他の鳥と同様に音を立てる内容では矛盾。また、後続の「静かに飛ぶ」という説明とも対立する。\n\n3 (a strong air movement to fly up): 「飛び上がるための強い空気の流れ」。上昇力の話ではなく、静音性の話をしているので文脈に合わない。\n\n4 (a color change in their wings): 「翼の色の変化」。音の話をしているのに視覚的要素の色の変化は全く関係ない。\n\n【正解の根拠】\n論理的流れ：\n1. 多くの鳥：風を切る時に音を立てる（ネガティブ）\n2. \"However\"（逆接）\n3. フクロウ：特別な羽の設計 → 滑らかで静かな空気の流れ（ポジティブ）\n4. 結果：\"This allows them to fly quietly\"（だから静かに飛べる）\n\n「滑らかで静かな空気の流れ」は、音を立てないための物理的メカニズムとして完璧に説明できます。\n\n【科学的背景】\nフクロウの羽の縁には細かい櫛状の構造があり、空気抵抗を減らし、乱流の発生を抑えます。これにより空気が羽の表面を滑らかに流れ、飛行音が極めて小さくなります。この構造は\"serrated edge\"（鋸歯状の縁）と呼ばれています。"
+        "correctAnswer": 1,
+        "explanation": "【文脈の状況】\nフクロウの羽の縁は独特である。\n特殊なデザインが ( 22 ) を作り出すのに役立つ。\nこれにより静かに飛び、気づかれずに長距離を飛ぶことができる。\n\n【選択肢の検討】\n1. a smooth and silent air movement（滑らかで静かな空気の動き）：正解。静かに飛ぶために。\n2. a loud hitting sound in the air（空気中の大きな打撃音）\n3. a strong air movement to fly up（飛び上がるための強い空気の動き）\n4. a color change in their wings（翼の色の変化）"
       },
       {
         "number": 23,
-        "correctAnswer": 4,
         "choices": [
           {
             "index": 1,
@@ -7158,75 +7158,172 @@
             "text": "Therefore"
           }
         ],
-        "explanation": "【文脈の状況】\nフクロウの羽構造を飛行機設計に応用する研究について述べた後の結論部分。\n\n【重要語彙・表現】\n・considering: 検討している\n・3D printing: 3Dプリンティング\n・model airplane wings: 模型飛行機の翼\n・reduce noise: 騒音を減らす\n・areas near airports: 空港近くの地域\n・higher noise levels: より高い騒音レベル\n・hope for progress: 進歩を望む\n\n【選択肢の詳細検討】\n1 (In spite of this): 「これにもかかわらず」。逆接の接続詞。前文で「飛行機の騒音削減に役立つ研究で、空港近くの人々にとって重要」というポジティブな内容を述べているのに、逆接で「多くの人が期待している」と続けるのは論理的におかしい。\n\n2 (To begin with): 「まず第一に」。話題を導入する表現。しかし、ここは第3段落の最後、つまり結論部分であり、新しい話題を始める場所ではない。\n\n3 (Even so): 「それでも」。逆接・譲歩を示す表現。選択肢1と同様に、ポジティブな内容の後に逆接を使って「期待している」と述べるのは不自然。\n\n4 (Therefore): ✓ 正解。「したがって、それゆえ」。因果関係を示す接続詞。論理的流れ：\n   - 前提：フクロウの羽構造の研究が飛行機の騒音削減に役立つ可能性がある\n   - 重要性：空港近くでは騒音が問題になっている\n   - 結論：\"Therefore\"（だから） → 多くの人がこの技術の進歩を期待している\n\n【正解の根拠】\n論理構造の分析：\n1. 研究内容：フクロウの羽の構造を飛行機に応用\n2. 研究の意義：飛行機の騒音削減に貢献できる\n3. 社会的背景：空港周辺では騒音が深刻な問題\n4. 接続詞：\"Therefore\"\n5. 結論：多くの人がこの技術に期待\n\n前文で述べられた「研究の重要性」と「社会的ニーズ」を根拠として、その結果として「人々が期待している」という結論に至る因果関係が明確です。\n\n【ディスコース・マーカーの機能】\n\"Therefore\"は演繹的推論を示す接続詞で、前提から論理的に導かれる結論を導入します。科学論文や説明文でよく使われる、論理性を重視した表現です。"
+        "correctAnswer": 4,
+        "explanation": "【文脈の状況】\n研究は飛行機からの騒音を減らすのに役立つ可能性がある。\n空港近くの地域では、フライトの増加で騒音レベルが上がっている。\n( 23 )、多くの人がこの技術の進歩を望んでいる。\n\n【選択肢の検討】\n1. In spite of this（これにもかかわらず）\n2. To begin with（まず第一に）\n3. Even so（それでも）\n4. Therefore（したがって）：正解。騒音問題があるから技術の進歩を望む（因果関係）。"
       }
     ],
     "sentences": [
       {
-        "id": "grade2_2025_2_2B-0",
+        "id": "2025-2-2B-0",
         "english": "Owls are active at night because darkness works to their advantage.",
         "japanese": "フクロウは、暗闇が自分たちに有利に働くため、夜に活動します。",
         "mainVerb": "are, works",
-        "notes": "【語句】 active: 活動的な\n【語句】 at night: 夜に\n【接続詞】 because: なぜなら\n【語句】 darkness: 暗闇\n【語句】 work to one's advantage: ～に有利に働く\n【語句】 advantage: 利点、有利",
-        "relatedQ": 21
+        "notes": "【語句】 active: 活動的な\n【語句】 at night: 夜に\n【語句】 darkness: 暗闘\n【語句】 work to one's advantage: ～に有利に働く",
+        "relatedQ": null
       },
       {
-        "id": "grade2_2025_2_2B-1",
+        "id": "2025-2-2B-1",
         "english": "They have large eyes to gather as much light as possible.",
-        "japanese": "彼らは、できるだけ多くの光を集めるために大きな目を持っています。",
+        "japanese": "彼らはできるだけ多くの光を集めるために大きな目を持っています。",
         "mainVerb": "have",
-        "notes": "【語句】 large eyes: 大きな目\n【文法】 to gather: 集めるために（不定詞・目的）\n【語句】 gather: 集める\n【文法】 as ... as possible: できるだけ～\n【語句】 light: 光\n【文法】 much light: 多くの光（lightは不可算名詞なのでmuch）",
-        "relatedQ": 21
+        "notes": "【文法】 to gather: ～するために（不定詞の副詞用法）\n【語句】 as much ... as possible: できるだけ多くの～\n【語句】 gather: 集める",
+        "relatedQ": null
       },
       {
-        "id": "grade2_2025_2_2B-2",
+        "id": "2025-2-2B-2",
         "english": "This helps them spot animals in the dark.",
-        "japanese": "これは、彼らが暗闇の中で動物を見つけるのに役立ちます。",
+        "japanese": "これにより、暗闇の中で動物を見つけることができます。",
         "mainVerb": "helps",
-        "notes": "【文法】 help O (to) V: OがVするのを助ける\n【語句】 spot: 見つける、発見する\n【語句】 animal: 動物（獲物）\n【語句】 in the dark: 暗闇の中で\n【文法】 This: 前文の内容（大きな目で光を集めること）",
-        "relatedQ": 21
+        "notes": "【文法】 help + O + V: OがVするのを助ける\n【語句】 spot: 見つける、発見する\n【語句】 in the dark: 暗闇の中で",
+        "relatedQ": null
       },
       {
-        "id": "grade2_2025_2_2B-3",
+        "id": "2025-2-2B-3",
         "english": "What helps them find animals in the dark is not only their eyes but also their ears.",
-        "japanese": "彼らが暗闇で動物を見つけるのを助けているのは、目だけではなく耳もです。",
-        "mainVerb": "is, helps",
-        "notes": "【文法】 What helps them ...: 彼らが～するのを助けるもの（関係代名詞Whatによる主語節）\n【文法】 not only A but also B: AだけでなくBも\n【語句】 find: 見つける\n【語句】 ear: 耳\n【文法】 is: 動詞（主語がWhat節なので単数扱い）",
-        "relatedQ": 21
+        "japanese": "暗闘の中で動物を見つけるのを助けるのは、目だけでなく耳でもあります。",
+        "mainVerb": "is",
+        "notes": "【文法】 What helps...: ～を助けるもの（関係代名詞what）\n【文法】 not only A but also B: AだけでなくBも",
+        "relatedQ": null
       },
       {
-        "id": "grade2_2025_2_2B-4",
+        "id": "2025-2-2B-4",
         "english": "Their ears are located at different heights on the left and right sides of their heads.",
-        "japanese": "彼らの耳は、頭の左右で異なる高さに位置しています。",
+        "japanese": "彼らの耳は頭の左右で異なる高さに位置しています。",
         "mainVerb": "are located",
-        "notes": "【文法】 be located: 位置している（受動態的表現）\n【語句】 at different heights: 異なる高さに\n【語句】 height: 高さ\n【語句】 left and right sides: 左右の側面\n【語句】 head: 頭",
-        "relatedQ": 21
+        "notes": "【語句】 be located: 位置している\n【語句】 at different heights: 異なる高さに\n【語句】 left and right sides: 左右",
+        "relatedQ": null
       },
       {
-        "id": "grade2_2025_2_2B-5",
+        "id": "2025-2-2B-5",
         "english": "This makes the time at which ( 21 ) different.",
-        "japanese": "これにより、音がそれぞれの耳に届く時間が異なります（21）。",
+        "japanese": "これにより（21）音が各耳に届く時間が異なります。",
         "mainVerb": "makes",
-        "notes": "【文法】 make O C: OをCにする\n【文法】 the time at which ...: ～する時間（関係代名詞＋前置詞）\n【空所】 (21) sounds reach each ear: 音がそれぞれの耳に届く\n【語句】 reach: 届く\n【語句】 different: 異なる",
+        "notes": "【文法】 make + O + C: OをCにする\n【空所】 (21) sound arrives at each ear: 音が各耳に届く",
         "relatedQ": 21
       },
       {
-        "id": "grade2_2025_2_2B-6",
+        "id": "2025-2-2B-6",
         "english": "They analyze this difference instantly and determine the accurate position of the animals.",
         "japanese": "彼らはこの違いを瞬時に分析し、動物の正確な位置を特定します。",
         "mainVerb": "analyze, determine",
-        "notes": "【語句】 analyze: 分析する\n【語句】 difference: 違い（到達時間の差）\n【語句】 instantly: 瞬時に\n【語句】 determine: 特定する、決定する\n【語句】 accurate position: 正確な位置\n【語句】 accurate: 正確な",
+        "notes": "【語句】 analyze: 分析する\n【語句】 instantly: 瞬時に\n【語句】 determine: 特定する、決定する\n【語句】 accurate position: 正確な位置",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-7",
+        "english": "Spotting food is only the first step when animals hunt for their food.",
+        "japanese": "食べ物を見つけることは、動物が食べ物を狩る際の最初のステップにすぎません。",
+        "mainVerb": "is",
+        "notes": "【語句】 spot: 見つける\n【語句】 the first step: 最初のステップ\n【語句】 hunt for: ～を狩る",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-8",
+        "english": "The hunters must get closer and catch their food before being noticed.",
+        "japanese": "狩りをする者は気づかれる前に近づいて食べ物を捕まえなければなりません。",
+        "mainVerb": "must get, catch",
+        "notes": "【語句】 get closer: 近づく\n【語句】 catch: 捕まえる\n【文法】 before being noticed: 気づかれる前に",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-9",
+        "english": "Owls are also good at this.",
+        "japanese": "フクロウはこれも得意です。",
+        "mainVerb": "are",
+        "notes": "【語句】 be good at: ～が得意である",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-10",
+        "english": "Many birds tend to make noise when cutting through the wind because air moves through their feathers in uncontrolled ways.",
+        "japanese": "多くの鳥は風を切るときに音を立てる傾向がありますが、それは空気が制御されない方法で羽を通り抜けるからです。",
+        "mainVerb": "tend, moves",
+        "notes": "【語句】 tend to: ～する傾向がある\n【語句】 make noise: 音を立てる\n【語句】 cut through: ～を切り裂く\n【語句】 feathers: 羽\n【語句】 in uncontrolled ways: 制御されない方法で",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-11",
+        "english": "However, the edges of owl feathers are unique.",
+        "japanese": "しかし、フクロウの羽の縁は独特です。",
+        "mainVerb": "are",
+        "notes": "【接続詞】 However: しかし\n【語句】 edge: 縁\n【語句】 unique: 独特な",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-12",
+        "english": "The special design helps create ( 22 ).",
+        "japanese": "特殊なデザインが（22）滑らかで静かな空気の動きを作り出すのに役立ちます。",
+        "mainVerb": "helps",
+        "notes": "【語句】 special design: 特殊なデザイン\n【文法】 help + V: ～するのを助ける\n【空所】 (22) a smooth and silent air movement: 滑らかで静かな空気の動き",
         "relatedQ": 22
       },
       {
-        "id": "placeholder",
-        "english": "(Please upload image for the rest of the passage)",
-        "japanese": "（画像のアップロードをお待ちしています）",
-        "notes": "",
-        "mainVerb": ""
+        "id": "2025-2-2B-13",
+        "english": "This allows them to fly quietly and long distances without being noticed.",
+        "japanese": "これにより、静かに、気づかれずに長距離を飛ぶことができます。",
+        "mainVerb": "allows",
+        "notes": "【文法】 allow A to V: AがVすることを可能にする\n【語句】 quietly: 静かに\n【語句】 long distances: 長距離\n【語句】 without being noticed: 気づかれずに",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-14",
+        "english": "Some researchers are considering using the owl's feather structure in airplane design.",
+        "japanese": "一部の研究者はフクロウの羽の構造を飛行機の設計に利用することを検討しています。",
+        "mainVerb": "are considering",
+        "notes": "【語句】 researcher: 研究者\n【語句】 consider: 検討する\n【語句】 feather structure: 羽の構造\n【語句】 airplane design: 飛行機の設計",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-15",
+        "english": "A team at the University of London made a copy of owl feathers with 3D printing.",
+        "japanese": "ロンドン大学のチームは3Dプリントでフクロウの羽のコピーを作りました。",
+        "mainVerb": "made",
+        "notes": "【語句】 University of London: ロンドン大学\n【語句】 make a copy: コピーを作る\n【語句】 3D printing: 3Dプリント",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-16",
+        "english": "They created model airplane wings with a structure similar to that of owl feathers and studied how air flowed around them.",
+        "japanese": "彼らはフクロウの羽に似た構造のモデル飛行機の翼を作り、空気がその周りをどう流れるかを研究しました。",
+        "mainVerb": "created, studied",
+        "notes": "【語句】 model airplane: モデル飛行機\n【語句】 wing: 翼\n【文法】 similar to that of: ～のそれに似た\n【語句】 flow: 流れる",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-17",
+        "english": "The research could help reduce noise from airplanes.",
+        "japanese": "この研究は飛行機からの騒音を減らすのに役立つ可能性があります。",
+        "mainVerb": "could help",
+        "notes": "【語句】 research: 研究\n【文法】 could help: ～するのに役立つ可能性がある\n【語句】 reduce: 減らす\n【語句】 noise: 騒音",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-18",
+        "english": "This is very important for people in areas near airports, where more flights have caused higher noise levels.",
+        "japanese": "これは空港近くの地域に住む人々にとって非常に重要であり、そこではより多くのフライトが騒音レベルの上昇を引き起こしています。",
+        "mainVerb": "is, have caused",
+        "notes": "【語句】 area: 地域\n【語句】 near airports: 空港の近くで\n【文法】 where: ～する場所（関係副詞）\n【語句】 noise level: 騒音レベル",
+        "relatedQ": null
+      },
+      {
+        "id": "2025-2-2B-19",
+        "english": "( 23 ), many people hope for progress in this technology.",
+        "japanese": "（23）したがって、多くの人がこの技術の進歩を望んでいます。",
+        "mainVerb": "hope",
+        "notes": "【空所】 (23) Therefore: したがって\n【語句】 hope for: ～を望む\n【語句】 progress: 進歩\n【語句】 technology: 技術",
+        "relatedQ": 23
       }
-    ],
-    "englishTitle": "Learning from Owls"
+    ]
   },
   {
     "filename": "grade2_2025_2_2A",
