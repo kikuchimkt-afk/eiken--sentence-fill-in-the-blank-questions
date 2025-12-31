@@ -1,0 +1,365 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FileText, ArrowRight, Upload, Image as ImageIcon, Loader, Settings, ExternalLink } from 'lucide-react';
+import data from '../data.json';
+import './HomePage.css';
+
+export function HomePage() {
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [processingStatus, setProcessingStatus] = useState('');
+    const [showUploadModal, setShowUploadModal] = useState(false);
+    const [showSettingsModal, setShowSettingsModal] = useState(false);
+    const [apiKey, setApiKey] = useState('');
+    const [tempApiKey, setTempApiKey] = useState('');
+
+    // Load API key from localStorage on mount
+    React.useEffect(() => {
+        const saved = localStorage.getItem('gemini_api_key');
+        if (saved) {
+            setApiKey(saved);
+            setTempApiKey(saved);
+        }
+    }, []);
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setUploadedImage(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setUploadedImage(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
+
+    const processImage = async () => {
+        if (!uploadedImage) return;
+
+        if (!apiKey) {
+            alert('Gemini APIキーを設定してください。\n右上の⚙️アイコンから設定できます。');
+            setShowSettingsModal(true);
+            return;
+        }
+
+        setIsProcessing(true);
+        setProcessingStatus('画像を解析中...');
+
+        try {
+            // Call Gemini API directly from frontend
+            const base64Image = uploadedImage.replace(/^data:image\/\w+;base64,/, '');
+
+            const prompt = `この画像は英検準2級の会話文空所補充問題です。以下の情報を抽出してJSON形式で出力してください：
+
+【抽出する情報】
+1. **年度と回** (例: "2021年度 第2回")
+2. **問題番号** (21-25の範囲)
+3. **会話文全体** (A:とB:の発言を正確に)
+4. **4つの選択肢** (1-4の番号付き)
+5. **正解番号** (1-4)
+
+【各問題について、以下の充実した解説を生成してください】:
+- 【会話の状況】: その会話がどのような場面で行われているか
+- 【重要語彙】: 問題文に出てくる重要な英単語・表現の意味（3-5個）
+- 【選択肢の検討】: 各選択肢について、なぜ正解/不正解なのかを詳しく説明
+- 【正解の根拠】: 会話のどの部分から正解が導けるか、具体的な根拠
+- 【文法・表現のポイント】: 重要な文法事項や表現の解説（該当する場合）
+
+出力形式（JSON）:
+{
+  "year": "年度",
+  "session": "第X回",
+  "questions": [
+    {
+      "number": 21,
+      "correctAnswer": 2,
+      "conversation": [
+        {"speaker": "A", "text": "..."},
+        {"speaker": "B", "text": "... ( 21 ) ..."}
+      ],
+      "choices": [
+        {"index": 1, "text": "..."},
+        {"index": 2, "text": "..."},
+        {"index": 3, "text": "..."},
+        {"index": 4, "text": "..."}
+      ],
+      "explanation": "【会話の状況】\\n...\\n\\n【重要語彙】\\n...\\n\\n【選択肢の検討】\\n...\\n\\n【正解の根拠】\\n...\\n\\n【文法・表現のポイント】\\n..."
+    }
+  ]
+}
+
+コードブロックなしで、純粋なJSONのみを返してください。`;
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [
+                            { text: prompt },
+                            {
+                                inline_data: {
+                                    mime_type: 'image/jpeg',
+                                    data: base64Image
+                                }
+                            }
+                        ]
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error?.message || '解析に失敗しました');
+            }
+
+            setProcessingStatus('問題データを生成中...');
+            const result = await response.json();
+            const text = result.candidates[0].content.parts[0].text;
+
+            // Parse JSON from response
+            let examData;
+            try {
+                examData = JSON.parse(text);
+            } catch {
+                const jsonMatch = text.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
+                if (jsonMatch) {
+                    examData = JSON.parse(jsonMatch[1]);
+                } else {
+                    throw new Error('JSONの解析に失敗しました');
+                }
+            }
+
+            setProcessingStatus('データを登録中...');
+
+            // Transform and save to localStorage (will need page reload to update)
+            const newItem = transformExamData(examData);
+            const existingData = JSON.parse(localStorage.getItem('exam_data') || '[]');
+
+            // Remove duplicates and add to beginning
+            const filteredData = existingData.filter(d => d.filename !== newItem.filename);
+            filteredData.unshift(newItem);
+
+            localStorage.setItem('exam_data', JSON.stringify(filteredData));
+
+            setProcessingStatus('完了！ページを更新します...');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+
+        } catch (error) {
+            console.error('Error:', error);
+            setProcessingStatus('エラーが発生しました: ' + error.message);
+            setIsProcessing(false);
+        }
+    };
+
+    const transformExamData = (examData) => {
+        const newItem = {
+            filename: `manual_${examData.year.replace(/年度/, '')}_${examData.session.replace(/第|回/g, '')}`,
+            title: `${examData.year} ${examData.session} 英検準2級`,
+            passage: `Manual entry for ${examData.year} ${examData.session}`,
+            questions: examData.questions.map(q => ({
+                number: q.number,
+                correctAnswer: q.correctAnswer,
+                choices: q.choices,
+                explanation: q.explanation
+            })),
+            sentences: []
+        };
+
+        let sentenceId = parseInt(`${examData.year.match(/\d+/)[0]}${examData.session.match(/\d+/)[0]}`) * 100000;
+
+        examData.questions.forEach(q => {
+            q.conversation.forEach((line, idx) => {
+                newItem.sentences.push({
+                    id: sentenceId++,
+                    english: `${line.speaker}: ${line.text}`,
+                    japanese: "",
+                    notes: idx === 1 ? q.explanation : "",
+                    relatedQ: q.number
+                });
+            });
+
+            q.choices.forEach(choice => {
+                newItem.sentences.push({
+                    id: sentenceId++,
+                    english: `${choice.index}. ${choice.text}`,
+                    japanese: "",
+                    notes: "",
+                    relatedQ: q.number
+                });
+            });
+        });
+
+        return newItem;
+    };
+
+    // Handle paste event for clipboard screenshots
+    const handlePaste = (e) => {
+        const items = e.clipboardData?.items;
+        if (!items) return;
+
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setUploadedImage(event.target.result);
+                };
+                reader.readAsDataURL(blob);
+                break;
+            }
+        }
+    };
+
+    // Add paste event listener when modal is open
+    React.useEffect(() => {
+        if (showUploadModal && !uploadedImage) {
+            window.addEventListener('paste', handlePaste);
+            return () => {
+                window.removeEventListener('paste', handlePaste);
+            };
+        }
+    }, [showUploadModal, uploadedImage]);
+
+    return (
+        <div className="home-page">
+            <div className="hero-section">
+                <h1>英検準2級 長文空所補充問題</h1>
+                <p>問題を選択して学習を開始するか、新しい問題を追加してください。</p>
+
+                <button
+                    className="btn btn-upload-trigger"
+                    onClick={() => setShowUploadModal(true)}
+                >
+                    <Upload size={20} />
+                    新しい問題を追加（画像アップロード）
+                </button>
+            </div>
+
+            {/* Upload Modal */}
+            {showUploadModal && (
+                <div className="modal-overlay" onClick={() => !isProcessing && setShowUploadModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>問題画像をアップロード</h2>
+                            <button
+                                className="modal-close"
+                                onClick={() => !isProcessing && setShowUploadModal(false)}
+                                disabled={isProcessing}
+                            >×</button>
+                        </div>
+
+                        <div className="modal-body">
+                            {!uploadedImage ? (
+                                <div
+                                    className="upload-area"
+                                    onDrop={handleDrop}
+                                    onDragOver={handleDragOver}
+                                >
+                                    <ImageIcon size={48} className="upload-icon" />
+                                    <p className="upload-text">
+                                        画像をドラッグ＆ドロップ<br />
+                                        または
+                                    </p>
+                                    <label className="btn btn-primary upload-label">
+                                        ファイルを選択
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageUpload}
+                                            style={{ display: 'none' }}
+                                        />
+                                    </label>
+                                    <p className="upload-hint">
+                                        英検問題のスクリーンショットをアップロードしてください<br />
+                                        <span style={{ fontSize: '0.9em', color: '#10b981', fontWeight: '600' }}>
+                                            💡 Ctrl+V でクリップボードから貼り付けもできます
+                                        </span>
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className="image-preview-area">
+                                    <img
+                                        src={uploadedImage}
+                                        alt="Uploaded exam"
+                                        className="preview-image"
+                                    />
+
+                                    {!isProcessing ? (
+                                        <div className="preview-actions">
+                                            <button
+                                                className="btn btn-secondary"
+                                                onClick={() => setUploadedImage(null)}
+                                            >
+                                                画像を変更
+                                            </button>
+                                            <button
+                                                className="btn btn-success"
+                                                onClick={processImage}
+                                            >
+                                                問題を解析・登録
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="processing-status">
+                                            <Loader className="spinner" size={32} />
+                                            <p>{processingStatus}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="passage-grid">
+                {data.map((item, index) => {
+                    const displayTitle = item.title || item.filename.replace('.txt', '');
+                    const passagePreview = item.passage.substring(0, 150) + '...';
+
+                    return (
+                        <div key={index} className="card passage-card">
+                            <div className="card-header">
+                                <FileText className="card-icon" size={24} />
+                                <h2 className="card-title">{displayTitle}</h2>
+                            </div>
+
+                            <p className="card-preview">{passagePreview}</p>
+
+                            <div className="card-footer">
+                                <div className="question-count">
+                                    {item.questions.length} Questions
+                                </div>
+                                <Link to={`/quiz/${index}`} className="btn btn-primary">
+                                    Start Practice
+                                    <ArrowRight size={16} />
+                                </Link>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}

@@ -1,0 +1,132 @@
+.question-card {
+    margin-bottom: var(--spacing-lg);
+    border-left: 4px solid transparent;
+}
+
+.question-card.correct {
+    border-left-color: var(--color-success);
+}
+
+.question-card.incorrect {
+    border-left-color: var(--color-error);
+}
+
+.q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.q-number {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--color-primary);
+}
+
+.status-text {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-text.success {
+    color: var(--color-success);
+}
+
+.status-text.error {
+    color: var(--color-error);
+}
+
+.status-text.note {
+    color: var(--color-text-muted);
+}
+
+.choices-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.choice-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: white;
+    text-align: left;
+    transition: var(--transition);
+}
+
+.choice-btn:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    background: #f0f9ff;
+}
+
+.choice-index {
+    font-weight: 700;
+    margin-right: var(--spacing-md);
+    color: var(--color-text-muted);
+}
+
+/* Feedback Styles */
+.choice-btn.correct-choice {
+    border-color: var(--color-success);
+    background-color: #ecfdf5;
+    color: #065f46;
+}
+
+.choice-btn.wrong-choice {
+    border-color: var(--color-error);
+    background-color: #fef2f2;
+    color: #991b1b;
+}
+
+.choice-btn.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.explanation-box {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: #f8fafc;
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-primary-light);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.exp-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+}
+
+.exp-text {
+    font-size: 0.95rem;
+    color: var(--color-text-main);
+    white-space: pre-wrap;
+    line-height: 1.6;
+}

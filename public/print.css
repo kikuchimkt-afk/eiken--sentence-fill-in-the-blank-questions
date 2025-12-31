@@ -1,0 +1,68 @@
+/* Print-specific styles for A4 portrait printing */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+        /* Minimal margin */
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white !important;
+    }
+
+    /* Remove all black backgrounds */
+    * {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    /* Ensure image fills the page properly */
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        page-break-inside: avoid;
+    }
+
+    /* Hide browser UI elements */
+    header,
+    nav,
+    footer,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Remove shadows and borders that waste ink */
+    *,
+    *::before,
+    *::after {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        border: none !important;
+    }
+
+    /* Optimize text rendering */
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        page-break-after: avoid;
+    }
+
+    /* Ensure no extra spacing */
+    html,
+    body {
+        height: auto;
+        overflow: visible;
+    }
+}

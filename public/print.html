@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>印刷ページ</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white !important;
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+            }
+
+            img {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <img id="printImage" src="" alt="印刷用画像">
+    <script>
+        // URLから画像パスを取得
+        const params = new URLSearchParams(window.location.search);
+        const imagePath = params.get('image');
+
+        if (imagePath) {
+            document.getElementById('printImage').src = imagePath;
+            // 画像をプレビュー表示のみ（印刷ダイアログは自動表示しない）
+        }
+    </script>
+</body>
+
+</html>
