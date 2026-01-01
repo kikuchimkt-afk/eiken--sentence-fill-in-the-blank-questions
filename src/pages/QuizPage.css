@@ -102,15 +102,85 @@
         border-right: none;
         border-bottom: 2px solid var(--color-border);
         height: auto;
-        min-height: 60vh;
+        min-height: auto;
+        max-height: none;
     }
 
     .aid-panel {
         position: relative;
         height: auto;
-        min-height: 40vh;
+        min-height: auto;
+        max-height: none;
         border-left: none;
         border-top: 2px solid var(--color-border);
+    }
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .quiz-header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .header-title {
+        text-align: center;
+    }
+
+    .main-title {
+        font-size: 1.2rem !important;
+    }
+
+    .sub-title {
+        font-size: 0.85rem !important;
+    }
+
+    .question-nav {
+        justify-content: center;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .split-view {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .text-panel {
+        padding: 16px;
+        min-height: auto;
+        max-height: none;
+        border-right: none;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .aid-panel {
+        position: relative;
+        height: auto;
+        min-height: auto;
+        max-height: none;
+        border-left: none;
+        padding: 16px;
+    }
+
+    .aid-content {
+        padding: 16px;
+    }
+
+    .line-text {
+        font-size: 1rem;
+    }
+
+    .japanese-text-container {
+        padding: 12px;
+    }
+
+    .translation-line {
+        font-size: 0.95rem;
     }
 }
 
