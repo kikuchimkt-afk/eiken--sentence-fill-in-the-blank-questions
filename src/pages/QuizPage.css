@@ -613,3 +613,192 @@
     text-decoration-color: #dc2626;
     text-underline-offset: 3px;
 }
+
+/* Header Actions Container */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Homework Button - Top Right */
+.homework-btn-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+}
+
+.homework-btn-top:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+}
+
+/* Homework Modal Overlay */
+.homework-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+/* Homework Modal */
+.homework-modal {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.homework-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-radius: 16px 16px 0 0;
+}
+
+.homework-modal-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: white;
+}
+
+.modal-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.homework-modal-body {
+    padding: 24px;
+}
+
+.homework-modal-body .form-group {
+    margin-bottom: 20px;
+}
+
+.homework-modal-body label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.homework-modal-body input,
+.homework-modal-body textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.homework-modal-body input:focus,
+.homework-modal-body textarea:focus {
+    outline: none;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.homework-modal-body textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.homework-modal-footer {
+    display: flex;
+    gap: 12px;
+    padding: 20px 24px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+    border-radius: 0 0 16px 16px;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 12px 20px;
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #e5e7eb;
+}
+
+.btn-print {
+    flex: 2;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btn-print:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}

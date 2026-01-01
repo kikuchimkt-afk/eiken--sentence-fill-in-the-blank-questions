@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "jspdf": "^3.0.4",
     "lucide-react": "^0.562.0",
+    "qrcode.react": "^4.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.11.0"

@@ -1,13 +1,17 @@
 /* QuizPage.jsx - Enhanced Verb Highlight and Notes Display */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Home, EyeOff } from 'lucide-react';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { ArrowLeft, BookOpen, Home, EyeOff, ClipboardList } from 'lucide-react';
 import data from '../data.json';
 import './QuizPage.css';
 
 export function QuizPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+
+    // Student mode: hide home button when accessed via QR code
+    const isStudentMode = searchParams.get('student') === 'true';
 
     const quizIndex = id ? parseInt(id, 10) : 0;
     const currentItem = data[quizIndex] || data[0];
@@ -15,6 +19,7 @@ export function QuizPage() {
     const [sentences, setSentences] = useState([]);
     const [activeSentenceId, setActiveSentenceId] = useState(null);
     const [showNotes, setShowNotes] = useState(false);
+    const [showHomeworkModal, setShowHomeworkModal] = useState(false);
     const aidPanelRef = useRef(null);
 
     const groupedSentences = useMemo(() => {
@@ -148,10 +153,20 @@ export function QuizPage() {
                         ))}
                     </div>
                 </div>
-                <button onClick={() => navigate('/')} className="home-btn-top" title="トップへ戻る">
-                    <Home size={20} />
-                    <span>🏠 ホーム</span>
-                </button>
+                <div className="header-actions">
+                    {!isStudentMode && (
+                        <button onClick={() => setShowHomeworkModal(true)} className="homework-btn-top" title="宿題プリント作成">
+                            <ClipboardList size={18} />
+                            <span>📝 宿題</span>
+                        </button>
+                    )}
+                    {!isStudentMode && (
+                        <button onClick={() => navigate('/')} className="home-btn-top" title="トップへ戻る">
+                            <Home size={20} />
+                            <span>🏠 ホーム</span>
+                        </button>
+                    )}
+                </div>
             </header >
 
             <div className="split-view">
@@ -469,13 +484,253 @@ export function QuizPage() {
                 </div>
             </div>
 
-            <div className="bottom-home-container">
-                <button onClick={() => navigate('/')} className="home-btn-bottom">
-                    <Home size={20} />
-                    <span>🏠 ホームに戻る</span>
-                </button>
-            </div>
+            {!isStudentMode && (
+                <div className="bottom-home-container">
+                    <button onClick={() => navigate('/')} className="home-btn-bottom">
+                        <Home size={20} />
+                        <span>🏠 ホームに戻る</span>
+                    </button>
+                </div>
+            )}
+
+            {/* Homework Modal */}
+            {showHomeworkModal && (
+                <HomeworkModal
+                    currentItem={currentItem}
+                    quizIndex={quizIndex}
+                    questionNumbers={questionNumbers}
+                    onClose={() => setShowHomeworkModal(false)}
+                />
+            )}
         </div >
+    );
+}
+
+// Homework Modal Component
+function HomeworkModal({ currentItem, quizIndex, questionNumbers, onClose }) {
+    const [teacherName, setTeacherName] = useState('');
+    const [studentName, setStudentName] = useState('');
+    const [deadline, setDeadline] = useState(() => {
+        const nextWeek = new Date();
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        return nextWeek.toISOString().split('T')[0];
+    });
+    const [comment, setComment] = useState('頑張ってね！');
+
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+    };
+
+    const getGradeFromTitle = (title) => {
+        if (title.includes('準1級')) return '準1級';
+        if (title.includes('準2級プラス')) return '準2級プラス';
+        if (title.includes('準2級')) return '準2級';
+        if (title.includes('2級')) return '2級';
+        return '';
+    };
+
+    const handlePrint = () => {
+        const baseUrl = 'https://eiken-sentence-fill-in-the-blank-qu.vercel.app';
+        const quizUrl = `${baseUrl}/quiz/${quizIndex}?student=true`;
+        const todayStr = formatDate(new Date().toISOString().split('T')[0]);
+        const deadlineStr = deadline ? formatDate(deadline) : '未設定';
+        const grade = getGradeFromTitle(currentItem.title);
+        const qNums = questionNumbers.filter(q => q !== 'Other');
+
+        // Generate answer rows
+        let answerRows = '';
+        qNums.forEach(num => {
+            answerRows += `<tr><td style="font-weight: bold; padding: 15px;">(${num})</td><td style="padding: 15px;"></td><td style="padding: 15px;"></td></tr>`;
+        });
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>解答用紙 - ${currentItem.englishTitle || currentItem.title}</title>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+                <style>
+                    body { 
+                        font-family: 'Yu Gothic', 'Hiragino Sans', sans-serif; 
+                        padding: 30px;
+                        max-width: 600px;
+                        margin: 0 auto;
+                    }
+                    .header {
+                        text-align: center;
+                        border-bottom: 2px solid #333;
+                        padding-bottom: 15px;
+                        margin-bottom: 20px;
+                    }
+                    .title { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+                    .subtitle { font-size: 1rem; color: #666; }
+                    .info-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 10px;
+                        margin-bottom: 20px;
+                        padding: 15px;
+                        background: #f8fafc;
+                        border-radius: 8px;
+                    }
+                    .info-item { display: flex; gap: 8px; }
+                    .info-label { font-weight: 700; color: #555; }
+                    .comment-box {
+                        background: #fff3cd;
+                        padding: 15px;
+                        border-radius: 8px;
+                        margin-bottom: 20px;
+                        border-left: 4px solid #ffc107;
+                    }
+                    .comment-label { font-weight: 700; color: #856404; margin-bottom: 5px; }
+                    .answer-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 20px;
+                    }
+                    .answer-table th, .answer-table td {
+                        border: 2px solid #333;
+                        text-align: center;
+                    }
+                    .answer-table th { background: #e2e8f0; padding: 12px; }
+                    .qr-section {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        padding: 15px;
+                        background: #f0f9ff;
+                        border-radius: 8px;
+                        margin-top: 20px;
+                    }
+                    .qr-text { font-size: 0.9rem; color: #0369a1; }
+                    @media print {
+                        .info-grid { background: #f8f8f8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        .comment-box { background: #fffbe6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        .qr-section { background: #f0f9ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <div class="title">英検${grade} 長文空所補充問題 解答用紙</div>
+                    <div class="subtitle">📖 ${currentItem.englishTitle || currentItem.title}</div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">📅 出題日:</span>
+                        <span>${todayStr}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">⏰ 提出期限:</span>
+                        <span>${deadlineStr}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">👨‍🏫 担当講師:</span>
+                        <span>${teacherName || '未設定'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">📝 生徒名:</span>
+                        <span>${studentName || '________________'}</span>
+                    </div>
+                </div>
+
+                <div class="comment-box">
+                    <div class="comment-label">💬 先生からのメッセージ</div>
+                    <div>${comment}</div>
+                </div>
+
+                <h3 style="margin-bottom: 10px;">📝 解答欄</h3>
+                <table class="answer-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">問題番号</th>
+                            <th style="width: 150px;">あなたの解答</th>
+                            <th style="width: 100px;">正誤</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${answerRows}
+                    </tbody>
+                </table>
+
+                <div class="qr-section">
+                    <div id="qrcode"></div>
+                    <div class="qr-text">
+                        <strong>📱 解説を確認</strong><br>
+                        このQRコードをスマホでスキャンすると、<br>
+                        解説ページを見ることができます。
+                    </div>
+                </div>
+
+                <script>
+                    new QRCode(document.getElementById('qrcode'), {
+                        text: '${quizUrl}',
+                        width: 100,
+                        height: 100,
+                        colorDark: "#0369a1",
+                        colorLight: "#ffffff",
+                    });
+                    setTimeout(() => { window.print(); }, 500);
+                </script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    };
+
+    return (
+        <div className="homework-modal-overlay" onClick={onClose}>
+            <div className="homework-modal" onClick={e => e.stopPropagation()}>
+                <div className="homework-modal-header">
+                    <h2>📝 宿題プリント作成</h2>
+                    <button className="modal-close-btn" onClick={onClose}>×</button>
+                </div>
+                <div className="homework-modal-body">
+                    <div className="form-group">
+                        <label>👨‍🏫 担当講師名</label>
+                        <input
+                            type="text"
+                            value={teacherName}
+                            onChange={(e) => setTeacherName(e.target.value)}
+                            placeholder="例：山田先生"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>📝 生徒名</label>
+                        <input
+                            type="text"
+                            value={studentName}
+                            onChange={(e) => setStudentName(e.target.value)}
+                            placeholder="例：田中太郎（空欄可）"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>📅 提出期限</label>
+                        <input
+                            type="date"
+                            value={deadline}
+                            onChange={(e) => setDeadline(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>💬 応援のコメント</label>
+                        <textarea
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            placeholder="頑張ってね！"
+                            rows={3}
+                        />
+                    </div>
+                </div>
+                <div className="homework-modal-footer">
+                    <button className="btn-cancel" onClick={onClose}>キャンセル</button>
+                    <button className="btn-print" onClick={handlePrint}>🖨️ 印刷する</button>
+                </div>
+            </div>
+        </div>
     );
 }
 
