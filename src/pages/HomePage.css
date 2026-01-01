@@ -60,6 +60,10 @@
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
 }
 
+.grade-nav-btn.pre2plus {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
 .grade-nav-btn.pre2 {
     background: linear-gradient(135deg, #10b981, #047857);
 }
@@ -127,6 +131,24 @@ section {
     font-size: 0.9rem;
     font-weight: 700;
     flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.badge-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.junkaijo-badge {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 

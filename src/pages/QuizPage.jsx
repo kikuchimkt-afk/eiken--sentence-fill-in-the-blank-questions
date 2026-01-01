@@ -448,8 +448,12 @@ export function QuizPage() {
                                         </div>
                                     )}
 
-                                    {/* 2. Question Data (If applicable) */}
+                                    {/* 2. Question Data (Only show if this sentence has a blank slot) */}
                                     {(() => {
+                                        // Check if the sentence contains a blank like ( 18 ), ( 19 ), etc.
+                                        const hasBlank = /\(\s*\d+\s*\)/.test(activeSentence.english || activeSentence.displayEnglish || '');
+                                        if (!hasBlank) return null;
+
                                         const qData = currentItem.questions?.find(q => q.number === activeSentence.relatedQ || q.number === parseInt(activeSentence.relatedQ));
                                         if (!qData) return null;
                                         return <ExplanationPanel qData={qData} />;

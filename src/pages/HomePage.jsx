@@ -24,6 +24,7 @@ export function HomePage() {
     // データを級別・年度降順にソート
     const categorizeAndSort = () => {
         const grade2 = [];
+        const preGrade2Plus = [];  // 準2級プラス
         const preGrade2 = [];
         const preGrade1 = [];
 
@@ -32,7 +33,10 @@ export function HomePage() {
 
             // タイトルまたはfilenameから級を判定
             const title = item.title || item.filename;
-            if (title.includes('2級') && !title.includes('準')) {
+            const filename = item.filename || '';
+            if (title.includes('準2級プラス') || filename.includes('pre2plus')) {
+                preGrade2Plus.push(itemWithIndex);
+            } else if (title.includes('2級') && !title.includes('準')) {
                 grade2.push(itemWithIndex);
             } else if (title.includes('準1級')) {
                 preGrade1.push(itemWithIndex);
@@ -79,12 +83,13 @@ export function HomePage() {
 
         return {
             grade2: grade2.sort(sortByYear),
+            preGrade2Plus: preGrade2Plus.sort(sortByYear),
             preGrade2: preGrade2.sort(sortByYear),
             preGrade1: preGrade1.sort(sortByYear)
         };
     };
 
-    const { grade2, preGrade2, preGrade1 } = categorizeAndSort();
+    const { grade2, preGrade2Plus, preGrade2, preGrade1 } = categorizeAndSort();
 
     const handlePrint = (e, item) => {
         e.preventDefault();
@@ -127,12 +132,16 @@ export function HomePage() {
         const year = getYearFromTitle(displayTitle);
         const compactTitle = getCompactTitle(displayTitle);
         const yearClass = `year-${year}`;
+        const isJunkaijo = displayTitle.includes('準会場');
 
         return (
             <div key={item.originalIndex} className="problem-card-wrapper">
                 <div className="problem-card">
                     <div className="card-header">
-                        <div className={`year-badge ${yearClass}`}>{year}</div>
+                        <div className="badge-container">
+                            <div className={`year-badge ${yearClass}`}>{year}</div>
+                            {isJunkaijo && <div className="junkaijo-badge">準会場</div>}
+                        </div>
                         <div className="card-titles">
                             <h3 className="card-title-jp">{compactTitle}</h3>
                             {item.englishTitle && (
@@ -179,6 +188,9 @@ export function HomePage() {
                     {grade2.length > 0 && (
                         <a href="#grade2" className="grade-nav-btn grade2">英検2級</a>
                     )}
+                    {preGrade2Plus.length > 0 && (
+                        <a href="#pre-grade2-plus" className="grade-nav-btn pre2plus">英検準2級プラス</a>
+                    )}
                     {preGrade2.length > 0 && (
                         <a href="#pre-grade2" className="grade-nav-btn pre2">英検準2級</a>
                     )}
@@ -198,6 +210,15 @@ export function HomePage() {
                         <h2 className="section-title">英検2級</h2>
                         <div className="problem-grid">
                             {grade2.map(renderCard)}
+                        </div>
+                    </section>
+                )}
+
+                {preGrade2Plus.length > 0 && (
+                    <section id="pre-grade2-plus">
+                        <h2 className="section-title">英検準2級プラス</h2>
+                        <div className="problem-grid">
+                            {preGrade2Plus.map(renderCard)}
                         </div>
                     </section>
                 )}
