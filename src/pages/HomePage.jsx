@@ -1,9 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import data from '../data.json';
 import './HomePage.css';
 
+// 背景画像の数
+const TOTAL_BACKGROUNDS = 5;
+
 export function HomePage() {
+    // 背景画像のインデックス（1-5）
+    const [bgIndex, setBgIndex] = useState(1);
+
+    // 背景画像のローテーション（シャッフルなし、順番に）
+    useEffect(() => {
+        // localStorageから現在のインデックスを取得
+        const storedIndex = localStorage.getItem('bgImageIndex');
+        let currentIndex = storedIndex ? parseInt(storedIndex, 10) : 0;
+        
+        // 次のインデックスに移動（1から5を順番にループ）
+        currentIndex = (currentIndex % TOTAL_BACKGROUNDS) + 1;
+        
+        // 状態を更新
+        setBgIndex(currentIndex);
+        
+        // 次回のためにlocalStorageに保存
+        localStorage.setItem('bgImageIndex', currentIndex.toString());
+    }, []);
 
     // Resume scroll position when returning from quiz
     useEffect(() => {
@@ -173,32 +194,44 @@ export function HomePage() {
     };
 
     return (
-        <div className="home-page">
+        <div className={`home-page bg-${bgIndex}`}>
             <div className="home-container">
                 <div className="page-header">
-                    <h1 className="page-title">英検 準1級・2級・準2級 長文空所補充問題</h1>
+                    <h1 className="page-title">EIKEN Gap-Fill Navigator</h1>
                     <p className="page-subtitle">学習したい問題を選択してください</p>
                 </div>
 
                 {/* ナビゲーションボタン */}
                 <nav className="grade-nav">
                     {preGrade1.length > 0 && (
-                        <a href="#pre-grade1" className="grade-nav-btn pre1">英検準1級</a>
+                        <a href="#pre-grade1" className="grade-nav-btn pre1">
+                            準1級
+                            <span className="grade-count">{preGrade1.length}</span>
+                        </a>
                     )}
                     {grade2.length > 0 && (
-                        <a href="#grade2" className="grade-nav-btn grade2">英検2級</a>
+                        <a href="#grade2" className="grade-nav-btn grade2">
+                            2級
+                            <span className="grade-count">{grade2.length}</span>
+                        </a>
                     )}
                     {preGrade2Plus.length > 0 && (
-                        <a href="#pre-grade2-plus" className="grade-nav-btn pre2plus">英検準2級プラス</a>
+                        <a href="#pre-grade2-plus" className="grade-nav-btn pre2plus">
+                            準2級+
+                            <span className="grade-count">{preGrade2Plus.length}</span>
+                        </a>
                     )}
                     {preGrade2.length > 0 && (
-                        <a href="#pre-grade2" className="grade-nav-btn pre2">英検準2級</a>
+                        <a href="#pre-grade2" className="grade-nav-btn pre2">
+                            準2級
+                            <span className="grade-count">{preGrade2.length}</span>
+                        </a>
                     )}
                 </nav>
 
                 {preGrade1.length > 0 && (
                     <section id="pre-grade1">
-                        <h2 className="section-title">英検準1級</h2>
+                        <h2 className="section-title pre1-title">英検準1級</h2>
                         <div className="problem-grid">
                             {preGrade1.map(renderCard)}
                         </div>
@@ -207,7 +240,7 @@ export function HomePage() {
 
                 {grade2.length > 0 && (
                     <section id="grade2">
-                        <h2 className="section-title">英検2級</h2>
+                        <h2 className="section-title grade2-title">英検2級</h2>
                         <div className="problem-grid">
                             {grade2.map(renderCard)}
                         </div>
@@ -216,7 +249,7 @@ export function HomePage() {
 
                 {preGrade2Plus.length > 0 && (
                     <section id="pre-grade2-plus">
-                        <h2 className="section-title">英検準2級プラス</h2>
+                        <h2 className="section-title pre2plus-title">英検準2級プラス</h2>
                         <div className="problem-grid">
                             {preGrade2Plus.map(renderCard)}
                         </div>
@@ -225,12 +258,16 @@ export function HomePage() {
 
                 {preGrade2.length > 0 && (
                     <section id="pre-grade2">
-                        <h2 className="section-title">英検準2級</h2>
+                        <h2 className="section-title pre2-title">英検準2級</h2>
                         <div className="problem-grid">
                             {preGrade2.map(renderCard)}
                         </div>
                     </section>
                 )}
+
+                <footer className="page-footer">
+                    © ECCベストワン藍住・北島中央 | タブレット横向き・PC推奨
+                </footer>
             </div>
         </div>
     );
