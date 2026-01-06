@@ -1,0 +1,257 @@
+/* PrintPreviewPage.css */
+
+.print-page-container {
+    background-color: #f3f4f6;
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Times New Roman", "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.print-controls {
+    margin-bottom: 2rem;
+    text-align: center;
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.print-button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.2s;
+    margin-bottom: 0.5rem;
+}
+
+.print-button:hover {
+    background-color: #1d4ed8;
+}
+
+.print-instructions {
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-family: sans-serif;
+}
+
+/* A4 Paper Simulation */
+.a4-page {
+    background: white;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm 20mm;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    position: relative;
+    box-sizing: border-box;
+    /* Flex Setup for Single/Multi Page Footer handling */
+    display: flex;
+    flex-direction: column;
+}
+
+.exam-content-flex {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.questions-footer-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Takes up remaining space in flow */
+}
+
+/* For Pre-2 Split Layout */
+.page-break-before {
+    page-break-before: always;
+    margin-top: 0 !important;
+}
+
+/* Ensure the second page fills height to push footer down */
+.force-height {
+    min-height: 250mm;
+    /* Approx A4 minus margins, forces footer to bottom of P2 */
+    justify-content: space-between;
+}
+
+/* Content Styling */
+.bold-placeholder {
+    font-weight: bold;
+    font-family: sans-serif;
+    padding: 0 2px;
+}
+
+.exam-header {
+    border-bottom: 2px solid black;
+    margin-bottom: 4mm;
+    padding-bottom: 1mm;
+    text-align: left;
+}
+
+.exam-title {
+    text-align: left;
+    font-size: 16pt;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+    font-family: sans-serif;
+}
+
+.exam-subtitle {
+    text-align: left;
+    font-size: 12pt;
+    margin-top: 2px;
+    font-weight: bold;
+    color: #000;
+    font-style: normal;
+}
+
+.passage-section {
+    margin-bottom: 4mm;
+}
+
+.passage-paragraph {
+    font-size: 12pt;
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 0.6em;
+    text-indent: 1em;
+}
+
+.questions-section {
+    margin-top: 5mm;
+    margin-bottom: 5mm;
+}
+
+.question-block {
+    margin-bottom: 4mm;
+    display: flex;
+    align-items: flex-start;
+    background: transparent !important;
+    border: none !important;
+}
+
+.avoid-break {
+    page-break-inside: avoid;
+}
+
+.question-number {
+    font-weight: bold;
+    font-size: 13pt;
+    margin-right: 10px;
+    min-width: 35px;
+    font-family: sans-serif;
+}
+
+.choices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+    width: 100%;
+    background: transparent !important;
+}
+
+.choice-item {
+    font-size: 12pt;
+    display: flex;
+    align-items: baseline;
+    background: transparent !important;
+}
+
+.choice-index {
+    font-weight: bold;
+    margin-right: 5px;
+    font-family: sans-serif;
+}
+
+/* Footer (Normal Flow with Auto Margin) */
+.exam-footer {
+    margin-top: auto;
+    /* Pushes to bottom of flex container */
+    width: 100%;
+    padding-top: 5mm;
+}
+
+.answers-row {
+    border-top: 1px solid black;
+    padding-top: 1mm;
+    margin-top: 0;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    background: transparent !important;
+    margin-bottom: 2mm;
+}
+
+.copyright-row {
+    text-align: center;
+    font-size: 9pt;
+    font-family: sans-serif;
+    color: #000;
+}
+
+.answers-label {
+    font-weight: bold;
+    font-size: 11pt;
+}
+
+.answers-content {
+    font-family: sans-serif;
+    font-size: 11pt;
+    letter-spacing: 1px;
+}
+
+/* Print Specific Styles */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        background: white;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .print-page-container {
+        padding: 0;
+        background: white;
+        display: block;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .a4-page {
+        width: 100%;
+        box-shadow: none;
+        padding: 15mm 20mm;
+        margin: 0;
+        /* Ensure it takes full page height so footer is pushed down */
+        min-height: 297mm;
+        height: 100%;
+    }
+
+    * {
+        color: black !important;
+        background: transparent !important;
+    }
+
+    .print-button {
+        display: none;
+    }
+}

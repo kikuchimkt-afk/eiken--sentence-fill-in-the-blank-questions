@@ -9,7 +9,7 @@ export function Layout({ children }) {
                 {children}
             </main>
 
-            <footer className="footer">
+            <footer className="footer no-print">
                 <div className="container">
                     <p>© ECCベストワン藍住・北島中央</p>
                 </div>

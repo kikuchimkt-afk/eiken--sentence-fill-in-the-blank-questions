@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英検大問1攻略アプリ - 指導者マニュアル</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 40px;
+            color: white;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #fff;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .logo-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .app-name {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            letter-spacing: 2px;
+        }
+
+        .school-name {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .main-title {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.3;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px 40px 30px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .section-title .icon {
+            font-size: 20px;
+        }
+
+        /* 3 Pillars */
+        .pillars {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .pillar {
+            flex: 1;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ebff 100%);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .pillar.active {
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .pillar-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .pillar-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .pillar-sub {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .pillar-app {
+            font-size: 10px;
+            color: #667eea;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+
+        /* Stats */
+        .stats-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+        }
+
+        .stats-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #e53e3e;
+            margin-bottom: 8px;
+        }
+
+        .stats-content {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .highlight {
+            background: linear-gradient(transparent 60%, #ffd700 60%);
+            font-weight: 700;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            gap: 8px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .timeline-time {
+            font-size: 11px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .timeline-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .timeline-desc {
+            font-size: 9px;
+            color: #666;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .feature-desc {
+            color: #666;
+        }
+
+        /* QR Section */
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+        }
+
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #333;
+            flex-shrink: 0;
+        }
+
+        .qr-text h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .qr-text p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .qr-url {
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .page {
+                box-shadow: none;
+                margin: 0;
+            }
+        }
+
+        /* Guarantee Badge - Wax Seal Style */
+        .guarantee-badge {
+            position: absolute;
+            top: 70px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            background: #c0392b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 4px dashed rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            transform: rotate(15deg);
+        }
+
+        .guarantee-badge .inner {
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            width: 85%;
+            height: 85%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.9);
+            transform: rotate(-10deg);
+        }
+
+        .guarantee-badge span {
+            font-family: serif;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 1.2;
+        }
+
+        .guarantee-badge .sub {
+            font-size: 9px;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            font-family: sans-serif;
+        }
+
+        /* Font Size & Balance Adjustments - A4 Compact Layout */
+        .page {
+            font-size: 14px;
+            height: 297mm;
+            /* Strictly A4 height */
+            margin: 0 auto;
+            max-height: 297mm;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+
+        .header {
+            padding: 30px 40px;
+        }
+
+        .main-title {
+            font-size: 38px;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .content {
+            padding: 20px 40px;
+        }
+
+        .section {
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            border-bottom-width: 2px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+        }
+
+        .pillar {
+            padding: 12px;
+        }
+
+        .pillar-icon {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+
+        .pillar-title {
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .pillar-sub {
+            font-size: 11px;
+        }
+
+        .pillar-app {
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        .stats-box {
+            padding: 12px 18px;
+            margin-bottom: 10px;
+        }
+
+        .stats-title {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .stats-content {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .timeline {
+            gap: 5px;
+        }
+
+        .timeline-item {
+            padding: 8px 5px;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+
+        .timeline-title {
+            font-size: 13px;
+            margin-bottom: 1px;
+        }
+
+        .timeline-desc {
+            font-size: 10px;
+        }
+
+        .feature {
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            font-size: 26px;
+        }
+
+        .feature-title {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .feature-text {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .qr-section {
+            padding: 12px;
+            gap: 15px;
+        }
+
+        .qr-code {
+            width: 60px;
+            height: 60px;
+        }
+
+        .qr-code img {
+            width: 60px !important;
+            height: 60px !important;
+        }
+
+        .qr-text h3 {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .qr-text p {
+            font-size: 10px;
+            margin-bottom: 0;
+            line-height: 1.3;
+        }
+
+        .qr-url {
+            font-size: 9px;
+            padding: 2px 6px;
+            margin-top: 4px;
+        }
+
+        .footer {
+            display: none;
+        }
+
+        /* Font Size & Balance Adjustments - A4 Final Optimized v6 (Darker Panels & Spacing) */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm !important;
+            height: 297mm !important;
+            max-height: 297mm !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            font-size: 16px !important;
+            /* Base font increased */
+            overflow: hidden !important;
+            background: white;
+            position: relative;
+        }
+
+        /* Ensure header text is on top */
+        .header {
+            padding: 30px 40px 60px !important;
+            /* SIGNIFICANTLY increased bottom padding to separate text from curve */
+            flex-shrink: 0;
+            width: 100% !important;
+            position: relative;
+            z-index: 20;
+        }
+
+        .logo-area,
+        .main-title,
+        .subtitle {
+            text-align: center;
+            position: relative !important;
+            z-index: 30 !important;
+        }
+
+        .main-title {
+            font-size: 42px !important;
+            margin-bottom: 5px !important;
+        }
+
+        .subtitle {
+            font-size: 17px !important;
+        }
+
+        .guarantee-badge {
+            z-index: 10 !important;
+        }
+
+        .content {
+            padding: 25px 40px 25px !important;
+            flex-grow: 1;
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            position: relative;
+            z-index: 5;
+        }
+
+        .section {
+            margin-bottom: 0 !important;
+            width: 100% !important;
+        }
+
+        /* Darker Colors for Printing */
+        .pillar {
+            padding: 12px !important;
+            background: linear-gradient(135deg, #eef2ff 0%, #d9e0ff 100%) !important;
+        }
+
+        .stats-box {
+            background: linear-gradient(135deg, #fff0f0 0%, #ffcfcf 100%) !important;
+        }
+
+        .timeline-item {
+            background: #eef1f5 !important;
+        }
+
+        .feature {
+            background: #eef1f5 !important;
+        }
+
+        /* Larger fonts for specific elements */
+        .section-title {
+            font-size: 20px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .pillar-title {
+            font-size: 18px !important;
+        }
+
+        .pillar-sub {
+            font-size: 13px !important;
+            color: #444 !important;
+        }
+
+        .pillar-app {
+            font-size: 12px !important;
+            font-weight: bold !important;
+        }
+
+        .stats-title {
+            font-size: 17px !important;
+        }
+
+        .stats-content {
+            font-size: 15px !important;
+            line-height: 1.5 !important;
+        }
+
+        .feature-title {
+            font-size: 15px !important;
+        }
+
+        .feature-desc {
+            font-size: 13px !important;
+        }
+
+        .timeline-time {
+            font-size: 14px !important;
+            font-weight: bold !important;
+        }
+
+        .timeline-title {
+            font-size: 15px !important;
+        }
+
+        .pillars,
+        .feature,
+        .stats-box,
+        .timeline-item {
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .footer {
+            display: none !important;
+        }
+
+        .qr-section {
+            margin-top: auto;
+            padding: 15px 25px !important;
+        }
+
+        .section {
+            margin-bottom: 0 !important;
+            width: 100% !important;
+        }
+
+        /* Larger fonts for specific elements */
+        .section-title {
+            font-size: 20px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .pillar {
+            padding: 12px !important;
+        }
+
+        .pillar-title {
+            font-size: 18px !important;
+        }
+
+        .pillar-sub {
+            font-size: 13px !important;
+            color: #555 !important;
+        }
+
+        .pillar-app {
+            font-size: 12px !important;
+            font-weight: bold !important;
+        }
+
+        .stats-title {
+            font-size: 17px !important;
+        }
+
+        .stats-content {
+            font-size: 15px !important;
+            line-height: 1.5 !important;
+        }
+
+        .feature-title {
+            font-size: 15px !important;
+        }
+
+        .feature-desc {
+            font-size: 13px !important;
+        }
+
+        .timeline-time {
+            font-size: 14px !important;
+            font-weight: bold !important;
+        }
+
+        .timeline-title {
+            font-size: 15px !important;
+        }
+
+        .pillars,
+        .feature,
+        .stats-box,
+        .timeline-item {
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .footer {
+            display: none !important;
+        }
+
+        .qr-section {
+            margin-top: auto;
+            padding: 15px 25px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="guarantee-badge">
+                <div class="inner">
+                    <span>合格</span>
+                    <span>保証</span>
+                    <span class="sub">GUARANTEE</span>
+                </div>
+            </div>
+            <div class="logo-area">
+                <span class="app-name">EIKEN VOCABULARY VANGUARD</span>
+                <span class="school-name">ECCベストワン藍住・北島中央</span>
+            </div>
+            <h1 class="main-title">語彙を制する者が<br>英検を制す</h1>
+            <p class="subtitle">科学的アプローチで合格を保証する指導者マニュアル</p>
+        </header>
+
+        <div class="content">
+            <!-- 3 Pillars Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">🎯</span>
+                    合格保証の3本柱
+                </h2>
+                <div class="pillars">
+                    <div class="pillar active">
+                        <div class="pillar-icon">📚</div>
+                        <div class="pillar-title">語彙力</div>
+                        <div class="pillar-sub">大問1攻略</div>
+                        <div class="pillar-app">▶ 本アプリ</div>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">📝</div>
+                        <div class="pillar-title">文法・文脈力</div>
+                        <div class="pillar-sub">空所補充問題</div>
+                        <div class="pillar-app">空所補充アプリ</div>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">📖</div>
+                        <div class="pillar-title">読解力</div>
+                        <div class="pillar-sub">長文読解</div>
+                        <div class="pillar-app">長文読解アプリ</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">📊</span>
+                    なぜ大問1が重要なのか
+                </h2>
+                <div class="stats-box">
+                    <div class="stats-title">⚡ 合格を生み出す成功体験サイクル</div>
+                    <div class="stats-content">
+                        <b>① 宿題でインプット（暗記）</b>：次回範囲を集中的に暗記し、単調な単語帳学習から脱却。<br>
+                        <b>② 授業でアウトプット（演習）</b>：実践的な過去問演習で高得点を出し、自信をつける。<br>
+                        <span class="highlight"
+                            style="display:block; margin-top:4px;">この成功体験が生徒のやる気を引き出し、合格への最短ルートとなります。</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timeline Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">⏱️</span>
+                    80分授業での10分教案
+                </h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">0-2分</div>
+                        <div class="timeline-title">確認</div>
+                        <div class="timeline-desc">宿題の進捗確認</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">2-5分</div>
+                        <div class="timeline-title">テスト</div>
+                        <div class="timeline-desc">実力チェック</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">5-8分</div>
+                        <div class="timeline-title">解説</div>
+                        <div class="timeline-desc">間違えた問題</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">8-10分</div>
+                        <div class="timeline-title">配布</div>
+                        <div class="timeline-desc">次回宿題</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">✨</span>
+                    アプリの主な機能
+                </h2>
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">🔄</div>
+                        <div class="feature-text">
+                            <div class="feature-title">正解した問題は自動除外</div>
+                            <div class="feature-desc">効率的な復習で時間を有効活用</div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👨‍🏫</div>
+                        <div class="feature-text">
+                            <div class="feature-title">インストラクターモード</div>
+                            <div class="feature-desc">解説に最適化された表示</div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🖨️</div>
+                        <div class="feature-text">
+                            <div class="feature-title">宿題プリント自動生成</div>
+                            <div class="feature-desc">QRコード付きで自宅学習も安心</div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📱</div>
+                        <div class="feature-text">
+                            <div class="feature-title">スマホ対応単語テスト</div>
+                            <div class="feature-desc">いつでもどこでも学習可能</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QR Section -->
+            <section class="section">
+                <div class="qr-section">
+                    <div class="qr-code">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=https://eiken-vocabulary-vanguard.vercel.app"
+                            alt="QR Code" style="width: 70px; height: 70px;">
+                    </div>
+                    <div class="qr-text">
+                        <h3>📲 今すぐアプリを体験</h3>
+                        <p>QRコードをスキャンしてアプリにアクセス。<br>準1級〜5級まで全級対応、5年分以上の過去問を収録。</p>
+                        <span class="qr-url">eiken-vocabulary-vanguard.vercel.app</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+    </div>
+</body>
+
+</html>

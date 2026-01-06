@@ -15,13 +15,13 @@ export function HomePage() {
         // localStorageから現在のインデックスを取得
         const storedIndex = localStorage.getItem('bgImageIndex');
         let currentIndex = storedIndex ? parseInt(storedIndex, 10) : 0;
-        
+
         // 次のインデックスに移動（1から5を順番にループ）
         currentIndex = (currentIndex % TOTAL_BACKGROUNDS) + 1;
-        
+
         // 状態を更新
         setBgIndex(currentIndex);
-        
+
         // 次回のためにlocalStorageに保存
         localStorage.setItem('bgImageIndex', currentIndex.toString());
     }, []);
@@ -116,10 +116,8 @@ export function HomePage() {
         e.preventDefault();
         e.stopPropagation();
 
-        const imageUrl = `/images/${item.filename}.png`;
-        const printUrl = `/print.html?image=${encodeURIComponent(imageUrl)}`;
-
-        // Open dedicated print page
+        // New Logic: Open the React-based PrintPreviewPage
+        const printUrl = `/print/${item.originalIndex}`;
         window.open(printUrl, '_blank');
     };
 
