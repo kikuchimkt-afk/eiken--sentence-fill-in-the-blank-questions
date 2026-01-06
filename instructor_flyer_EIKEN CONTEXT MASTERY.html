@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英検長文空所補充攻略アプリ - 指導者マニュアル</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #1a2e1d 0%, #163e21 100%);
+            /* Dark Green Body Background */
+            min-height: 100vh;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            max-height: 297mm;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            /* Green/Teal Gradient */
+            padding: 30px 40px 60px;
+            /* Exact padding from sample */
+            color: white;
+            position: relative;
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #fff;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .logo-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 30;
+        }
+
+        .app-name {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            letter-spacing: 2px;
+        }
+
+        .school-name {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .main-title {
+            font-size: 42px;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 30;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 17px;
+            margin-top: 5px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 30;
+        }
+
+        /* Guarantee Badge */
+        .guarantee-badge {
+            position: absolute;
+            top: 70px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            background: #c0392b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 4px dashed rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            transform: rotate(15deg);
+        }
+
+        .guarantee-badge .inner {
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            width: 85%;
+            height: 85%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.9);
+            transform: rotate(-10deg);
+        }
+
+        .guarantee-badge span {
+            font-family: serif;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 1.2;
+        }
+
+        .guarantee-badge .sub {
+            font-size: 9px;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            font-family: sans-serif;
+        }
+
+        /* Content */
+        .content {
+            padding: 25px 40px 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #27ae60;
+            /* Green accent */
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #27ae60;
+        }
+
+        .section-title .icon {
+            font-size: 20px;
+        }
+
+        /* 3 Pillars */
+        .pillars {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .pillar {
+            flex: 1;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .pillar.active {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+            /* Green-ish active bg */
+            border-color: #27ae60;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .pillar-icon {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+
+        .pillar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .pillar-sub {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .pillar-app {
+            font-size: 12px;
+            color: #27ae60;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        /* Stats */
+        .stats-box {
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%) !important;
+            /* Teal tint */
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .stats-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #00796b;
+            /* Dark Teal text */
+            margin-bottom: 5px;
+        }
+
+        .stats-content {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        .highlight {
+            background: linear-gradient(transparent 60%, #ffeb3b 60%);
+            /* Yellow highlight remains effective */
+            font-weight: 700;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            background: #eef1f5 !important;
+            border-radius: 10px;
+            padding: 8px 5px;
+            text-align: center;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #27ae60;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        .timeline-time {
+            font-size: 14px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 2px;
+        }
+
+        .timeline-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1px;
+        }
+
+        .timeline-desc {
+            font-size: 10px;
+            color: #666;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #eef1f5 !important;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .feature-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* QR Section */
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 12px;
+            padding: 15px 25px;
+            color: white;
+            margin-top: auto;
+        }
+
+        .qr-code {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .qr-code img {
+            width: 60px !important;
+            height: 60px !important;
+        }
+
+        .qr-text h3 {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .qr-text p {
+            font-size: 10px;
+            margin-bottom: 0;
+            line-height: 1.3;
+            opacity: 0.9;
+        }
+
+        .qr-url {
+            font-size: 9px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 210mm;
+                height: 297mm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="guarantee-badge">
+                <div class="inner">
+                    <span>時間</span>
+                    <span>短縮</span>
+                    <span class="sub">SPEED UP</span>
+                </div>
+            </div>
+            <div class="logo-area">
+                <span class="app-name">EIKEN CONTEXT MASTERY</span>
+                <span class="school-name">ECCベストワン藍住・北島中央</span>
+            </div>
+            <h1 class="main-title">文脈を制する者が<br>英検を制す</h1>
+            <p class="subtitle">過去問徹底分析×論理的アプローチで合格を引き寄せる</p>
+        </header>
+
+        <div class="content">
+            <!-- 3 Pillars Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">🎯</span>
+                    合格への最短ルート
+                </h2>
+                <div class="pillars">
+                    <div class="pillar">
+                        <div class="pillar-icon">📚</div>
+                        <div class="pillar-title">語彙力</div>
+                        <div class="pillar-sub">大問1攻略</div>
+                        <div class="pillar-app">語彙アプリ</div>
+                    </div>
+                    <div class="pillar active">
+                        <div class="pillar-icon">🧩</div>
+                        <div class="pillar-title">過去問の論理</div>
+                        <div class="pillar-sub">出題パターン攻略</div>
+                        <div class="pillar-app">▶ 本アプリ</div>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">📖</div>
+                        <div class="pillar-title">読解力</div>
+                        <div class="pillar-sub">長文読解</div>
+                        <div class="pillar-app">読解アプリ</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">📊</span>
+                    過去問分析で判明「誤答の理由」
+                </h2>
+                <div class="stats-box">
+                    <div class="stats-title">💡 膨大な過去問データが示す事実</div>
+                    <div class="stats-content">
+                        過去問の分析によると、多くの生徒は「なんとなく」で選択肢を選んでいます。本アプリは過去問の
+                        <b>① 文構造</b>、<b>② 解答根拠</b>を徹底的に可視化。確実な根拠を持って正解を選び取る力を養います。<br>
+                        <span class="highlight"
+                            style="display:block; margin-top:4px;">「なぜこの答えになるのか」を言語化できる力が身につきます。</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timeline Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">⏱️</span>
+                    80分授業内の30分活用例
+                </h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">0-10分</div>
+                        <div class="timeline-title">過去問演習</div>
+                        <div class="timeline-desc">本番形式で解答</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">10-25分</div>
+                        <div class="timeline-title">論理解説</div>
+                        <div class="timeline-desc">アプリで根拠を確認</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">25-30分</div>
+                        <div class="timeline-title">宿題作成</div>
+                        <div class="timeline-desc">QRプリント配布</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="icon">✨</span>
+                    講師の負担を劇的軽減
+                </h2>
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">🖨️</div>
+                        <div class="feature-text">
+                            <div class="feature-title">高品質プリント作成</div>
+                            <div class="feature-desc">長文も対話文も一瞬で印刷</div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👨‍🏫</div>
+                        <div class="feature-text">
+                            <div class="feature-title">詳細解説モード</div>
+                            <div class="feature-desc">過去問の出題意図を完全言語化</div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📱</div>
+                        <div class="feature-text">
+                            <div class="feature-title">QR解説付きプリント</div>
+                            <div class="feature-desc">復習・宿題用プリントを簡単作成</div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔎</div>
+                        <div class="feature-text">
+                            <div class="feature-title">過去問データベース</div>
+                            <div class="feature-desc">5年分以上の良問を網羅</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QR Section -->
+            <section class="section">
+                <div class="qr-section">
+                    <div class="qr-code">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=https://eiken-context-mastery.vercel.app"
+                            alt="QR Code" style="width: 70px; height: 70px;">
+                    </div>
+                    <div class="qr-text">
+                        <h3>📲 今すぐ大問2・3を攻略</h3>
+                        <p>QRコードをスキャンしてアプリにアクセス。<br>準1級・2級・準2級プラス・準2級の空所補充問題を完全収録。</p>
+                        <span class="qr-url">eiken-context-mastery.vercel.app</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

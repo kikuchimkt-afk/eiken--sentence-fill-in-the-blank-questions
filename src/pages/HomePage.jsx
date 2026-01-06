@@ -195,7 +195,7 @@ export function HomePage() {
         <div className={`home-page bg-${bgIndex}`}>
             <div className="home-container">
                 <div className="page-header">
-                    <h1 className="page-title">EIKEN Gap-Fill Navigator</h1>
+                    <h1 className="page-title">EIKEN CONTEXT MASTERY</h1>
                     <p className="page-subtitle">学習したい問題を選択してください</p>
                 </div>
 
